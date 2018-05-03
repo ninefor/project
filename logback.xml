@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="logDir" value="e:/"/>  
+    <appender name="DAILY" class="ch.qos.logback.core.rolling.RollingFileAppender">
+   		 <!--活动日志文件，如果不指定那么直接使用归档文件生成策略-->
+        <File>${logDir}logs/ctframe/ctframe.log</File>
+        <Append>true</Append>
+        <encoder>
+            <pattern>%-5p %d{yy-MM-dd HH:mm:ss} [%c{10} %L] %m%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>            
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        	<!-- 归档文件生成策略 -->
+            <fileNamePattern>${logDir}logs/ctframe/ctframe-%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+    
+    <appender name="zzrk_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">   		 
+       <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        	归档文件生成策略
+            <fileNamePattern>${logDir}logs/ctframe/zzrkService/INFO-%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy> 
+        <!--活动日志文件，如果不指定那么直接使用归档文件生成策略-->
+        <!--  <File>${logDir}logs/ctframe/INFO.log</File> -->
+        <Append>true</Append>
+        <encoder>
+            <pattern>%-5p %d{yyyy-MM-dd HH:mm:ss} [%c{10} %L] %m%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+        <!--  <evaluator>
+             过滤掉所有日志中不包含hello字符的日志
+                 <expression>
+                    message.contains("ZzrkService")
+                </expression> -->
+            <level>INFO</level>           
+        </filter>      
+    </appender>
+    
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    	<encoder>
+    		<pattern>%-5p %d{yy-MM-dd HH:mm:ss} [%c{10} %L] %m%n</pattern>
+    	</encoder>
+    </appender>
+    
+    <!-- 可以单独指定package或者class自己的appender;additivity表示是否向上级传递 -->
+    <!--
+    <logger name="javax.sql" level="DEBUG"  additivity="false">
+   	 	<appender-ref ref="xxx" />
+    </logger>
+    <logger name="com.mchange.v2.c3p0" level="INFO" />
+    -->
+    <logger name="cn.com.cybertech.accupoints.bmo.webservice.ZzrkService" level="INFO"  additivity="false">
+    <appender-ref ref="zzrk_INFO" />     
+    </logger>
+    <root level="INFO">
+        <!-- <appender-ref ref="DAILY" /> -->
+        <!-- <appender-ref ref="zzrk_INFO" />  -->
+         <appender-ref ref="STDOUT" />  
+    </root>
+</configuration>
